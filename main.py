@@ -21,7 +21,6 @@ from tqdm import tqdm as bar
 
 from arg_parser import parse_args
 from com_data_create import com_data_generate
-from select_from_data import loadDatabase
 from toolbox.MGF import MGF, write
 from toolbox.mstool import (chunks,str2array, default_filters,normTanimotoDistance,num2array,checkFormulaSim)
 
