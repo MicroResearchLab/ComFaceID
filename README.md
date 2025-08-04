@@ -82,12 +82,12 @@ base_model
 
 class_model/class
 
-        | Model for class classification.                 | [Download](https://zenodo.org/records/16682538?token=1JIqruLgGaG0RMTAsVais6FPu9wABSAFmZNz3KYBy6mMALZ8P_-dBvfNEG8MddVhrGWRU80ULzFcpluDkTTscg) |
+        | Model for class classification.                 | [Download](https://zenodo.org/records/16739187?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjRkZmM4NmU3LWJmNTYtNGMzMS1hMDRkLWJiOWJkMWE5OTI4NSIsImRhdGEiOnt9LCJyYW5kb20iOiIxMTllOGZjYTkyY2IyMTFmYjE2NTkzN2ExZmE2NWM5MCJ9.C4jqlgvF168csHtFpgMl80VJCQFqnXCvDDFkmLmxntWhzQ60xnkXgv1fb9uTi3bKSxBlTas5zx01Htuu-9L0vA) |
 | 
 
 class_model/superclass
 
-   | Model for superclass classification.            | [Download](https://zenodo.org/records/16679031?token=6NigkHdDnp2lrDAufodaTYQoVROqmv_KB6L7EqWDYwElhySiID11sGChE31cMRiZAtpYJmF_d10gGYXowtkQpA) |
+   | Model for superclass classification.            | [Download](https://zenodo.org/records/16739195?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjI3ZTgyOWFiLTRhNWEtNDIwNS1iZWM4LTQ5M2U3NzZmNTU1MyIsImRhdGEiOnt9LCJyYW5kb20iOiIxNDk5NjM3NmUzMWFlZjQ4YzE5ZjE5OTExZjdlNDI1OSJ9.8RycruKCPRKyX-D-wm9pmMgTbh8rxFZuIVK35fIGRQ9P79PihmWPBz-VLWTWrJIUBvC9HgTxQNFHxP8Do4MVcg) |
 | 
 
 fpr_model
