@@ -71,34 +71,14 @@ This command processes spectral data with the specified parameters and outputs t
 
 The following files and folders are required for the project. Download them using the provided links and place them in the specified directories:
 
-| Folder/File                | Description                                      | Download Link                                                                 |
-|----------------------------|--------------------------------------------------|-------------------------------------------------------------------------------|
-| 
+| Folder/File               | Description                                     | Download Link |
+|---------------------------|-------------------------------------------------|----------------|
+| `base_model`              | Base model for predicting embeddings.          | [Download](https://zenodo.org/records/16676832?token=rK9LQv6ZaQld6cd639UQefIPpKusT2zdMvbeAIleanx0pzwQcqz1udyfP9WD4UVB9e_SCgW6ia3PgkpkGQikhw) |
+| `class_model/class`       | Model for class classification.                | [Download](https://zenodo.org/records/16739187?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjRkZmM4NmU3LWJmNTYtNGMzMS1hMDRkLWJiOWJkMWE5OTI4NSIsImRhdGEiOnt9LCJyYW5kb20iOiIxMTllOGZjYTkyY2IyMTFmYjE2NTkzN2ExZmE2NWM5MCJ9.C4jqlgvF168csHtFpgMl80VJCQFqnXCvDDFkmLmxntWhzQ60xnkXgv1fb9uTi3bKSxBlTas5zx01Htuu-9L0vA) |
+| `class_model/superclass`  | Model for superclass classification.           | [Download](https://zenodo.org/records/16739195?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjI3ZTgyOWFiLTRhNWEtNDIwNS1iZWM4LTQ5M2U3NzZmNTU1MyIsImRhdGEiOnt9LCJyYW5kb20iOiIxNDk5NjM3NmUzMWFlZjQ4YzE5ZjE5OTExZjdlNDI1OSJ9.8RycruKCPRKyX-D-wm9pmMgTbh8rxFZuIVK35fIGRQ9P79PihmWPBz-VLWTWrJIUBvC9HgTxQNFHxP8Do4MVcg) |
+| `fpr_model`               | Model for molecular fingerprint prediction.    | [Download](https://zenodo.org/records/16682503?token=ilkes2IK-5c3z75DfqVD_W0AbBWjA_gR3Rs6HwrqnnECJfDYQB0prznZQWAMoQzQV_i4WxChoGcoIFUyA7ostQ) |
+| `fpr_database`            | Database for molecular fingerprint similarity. | [Download](https://zenodo.org/records/16679974?token=Kd8eYmSUSj2DB108pkOmikOstSpGTvsmo0S-CHoNyB37nP0nxx9IAepBRG8O62NRE9j3m0vwuvrwZuEpYb9KbA) |
 
-base_model
-
-               | Base model for predicting embeddings.           | [Download](https://zenodo.org/records/16676832?token=rK9LQv6ZaQld6cd639UQefIPpKusT2zdMvbeAIleanx0pzwQcqz1udyfP9WD4UVB9e_SCgW6ia3PgkpkGQikhw) |
-| 
-
-class_model/class
-
-        | Model for class classification.                 | [Download](https://zenodo.org/records/16739187?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjRkZmM4NmU3LWJmNTYtNGMzMS1hMDRkLWJiOWJkMWE5OTI4NSIsImRhdGEiOnt9LCJyYW5kb20iOiIxMTllOGZjYTkyY2IyMTFmYjE2NTkzN2ExZmE2NWM5MCJ9.C4jqlgvF168csHtFpgMl80VJCQFqnXCvDDFkmLmxntWhzQ60xnkXgv1fb9uTi3bKSxBlTas5zx01Htuu-9L0vA) |
-| 
-
-class_model/superclass
-
-   | Model for superclass classification.            | [Download](https://zenodo.org/records/16739195?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjI3ZTgyOWFiLTRhNWEtNDIwNS1iZWM4LTQ5M2U3NzZmNTU1MyIsImRhdGEiOnt9LCJyYW5kb20iOiIxNDk5NjM3NmUzMWFlZjQ4YzE5ZjE5OTExZjdlNDI1OSJ9.8RycruKCPRKyX-D-wm9pmMgTbh8rxFZuIVK35fIGRQ9P79PihmWPBz-VLWTWrJIUBvC9HgTxQNFHxP8Do4MVcg) |
-| 
-
-fpr_model
-
-                | Model for molecular fingerprint prediction.     | [Download](https://zenodo.org/records/16682503?token=ilkes2IK-5c3z75DfqVD_W0AbBWjA_gR3Rs6HwrqnnECJfDYQB0prznZQWAMoQzQV_i4WxChoGcoIFUyA7ostQ) |
-| 
-
-fpr_database
-
-             | Database for molecular fingerprint similarity.  | [Download](https://zenodo.org/records/16679974?token=Kd8eYmSUSj2DB108pkOmikOstSpGTvsmo0S-CHoNyB37nP0nxx9IAepBRG8O62NRE9j3m0vwuvrwZuEpYb9KbA) |
-| 
 
 
 ---
