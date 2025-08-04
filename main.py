@@ -90,7 +90,6 @@ def load_from_mgf(filename: str):
                "mz": mz,
                "intensities": intensities}
 
-
 for file in os.listdir(SourceDatabasePath):
     peaktable = False
     if os.path.exists(input_peak_table):
