@@ -33,8 +33,6 @@ import torch
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
-
-# root = "./"
 checkpoint_path =  "base_model/"
 ds_model_checkpoint_path = "fpr_model/"
 fpr_database_path = "fpr_database/CONAPUS_pubchem_export.csv"
