@@ -16,9 +16,6 @@ def parse_args():
     parser.add_argument('--filter_mass', type=float, required=True,
                         help='Relative molecular mass screening thresholds in pretreatment (default: 200)', default=200)
 
-    parser.add_argument('--predict_fpr', type=str2bool, default=True,
-                        help='Use model output to predict fingerprint, and use fpr to compute sim (default: true)')
-
     parser.add_argument('--filter_formula', type=str2bool, default=False,
                         help='Filter by formula (default: false)')
 

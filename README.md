@@ -47,6 +47,14 @@ main.py
 
 ## Usage Example
 
+### Input Files
+
+The project accepts input files in `.mzxml` or `.mgf` formats. These files should be placed in the `input/files` directory. 
+
+If the input includes `.mzxml` files, a corresponding peak table in `.csv` format must also be placed in the `input/files` directory. The `.csv` file should contain the following columns:
+- **`mz`**: Mass-to-charge ratio.
+- **`rt`**: Retention time in seconds.
+
 To run the project, use the following command:
 
 ```bash
@@ -72,12 +80,12 @@ base_model
                | Base model for predicting embeddings.           | [Download](https://zenodo.org/records/16676832?token=rK9LQv6ZaQld6cd639UQefIPpKusT2zdMvbeAIleanx0pzwQcqz1udyfP9WD4UVB9e_SCgW6ia3PgkpkGQikhw) |
 | 
 
-class
+class_model/class
 
         | Model for class classification.                 | [Download](https://zenodo.org/records/16682538?token=1JIqruLgGaG0RMTAsVais6FPu9wABSAFmZNz3KYBy6mMALZ8P_-dBvfNEG8MddVhrGWRU80ULzFcpluDkTTscg) |
 | 
 
-superclass
+class_model/superclass
 
    | Model for superclass classification.            | [Download](https://zenodo.org/records/16679031?token=6NigkHdDnp2lrDAufodaTYQoVROqmv_KB6L7EqWDYwElhySiID11sGChE31cMRiZAtpYJmF_d10gGYXowtkQpA) |
 | 
@@ -92,9 +100,6 @@ fpr_database
              | Database for molecular fingerprint similarity.  | [Download](https://zenodo.org/records/16679974?token=Kd8eYmSUSj2DB108pkOmikOstSpGTvsmo0S-CHoNyB37nP0nxx9IAepBRG8O62NRE9j3m0vwuvrwZuEpYb9KbA) |
 | 
 
-embed_database
-
-           | Database for embedding-based similarity search. | [Download](https://zenodo.org/records/16679646?token=7DSy7kOhYb77RTbm4j91PFwkIPbDVvcaJay31zGi_DzD48r1FVTYyjUiBVKAIhS1Gph4yIrzJxiVY0Y4YMO5rQ) |
 
 ---
 

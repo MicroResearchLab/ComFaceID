@@ -161,14 +161,27 @@ class Database:
             print('load files first')
             return
         #  count of the SpectrumCollection numbers processed
-        count = 1
-        for spec_coll in self.SpectrumCollection_list:
-            # merge spectra within each spectrumcollection
-            spec_coll.merge_spectra(
-                ms2delta=ms2delta, ppm=ppm, rt=rt, by_col_e=by_col_e)
-            if count % 100 == 0:
-                print('\rNum:{}, Now it is '.format(count), end='', flush=True)
-            count += 1
+        with concurrent.futures.ThreadPoolExecutor(max_workers=32) as executor:
+            futures = []
+            for spec_coll in self.SpectrumCollection_list:
+                futures.append(executor.submit(
+                     spec_coll.merge_spectra, ms2delta=ms2delta, ppm=ppm, rt=rt, by_col_e=by_col_e))
+            count = 0
+            for future in concurrent.futures.as_completed(futures):
+                try:
+                    result = future.result()
+                    if count % 100 == 0:
+                        print('\rNum:{}, Now it is '.format(count), end='', flush=True)
+                    count += 1
+                except Exception as e:
+                    print(f'An error occurred: {e}')
+        # for spec_coll in self.SpectrumCollection_list:
+        #     # merge spectra within each spectrumcollection
+        #     spec_coll.merge_spectra(
+        #         ms2delta=ms2delta, ppm=ppm, rt=rt, by_col_e=by_col_e)
+        #     if count % 100 == 0:
+        #         print('\rNum:{}, Now it is '.format(count), end='', flush=True)
+        #     count += 1
 
     def merge_neighbor_peaks(self, threshold=1.02):
         with concurrent.futures.ThreadPoolExecutor(max_workers=32) as executor:
@@ -185,6 +198,7 @@ class Database:
                     count += 1
                 except Exception as e:
                     print(f'An error occurred: {e}')
+                    raise e
         # for spec_coll in self.SpectrumCollection_list:
         #     spec_coll.merge_neighbor_peaks(threshold=threshold)
 
@@ -586,15 +600,18 @@ class SpectrumCollection:
         '''
         # distinguish the format of the file
         extension = os.path.splitext(self.filename)[1]
-        if extension.lower() == ".mzxml":
-            self.load_from_mzXML(drop_mslevels=drop_mslevels, peaktable=peaktable, ppm=ppm, rt=rt,
-                                 min_mz_num=min_mz_num, engine=engine, inten_thresh=inten_thresh)
-        elif extension.lower() == ".mgf":
-            self.load_from_mgf(min_mz_num=min_mz_num,
-                               engine=engine, inten_thresh=inten_thresh)
-        else:
-            print('only mzxml and mgf files are supported')
-
+        try:
+            if extension.lower() == ".mzxml":
+                self.load_from_mzXML(drop_mslevels=drop_mslevels, peaktable=peaktable, ppm=ppm, rt=rt,
+                                    min_mz_num=min_mz_num, engine=engine, inten_thresh=inten_thresh)
+            elif extension.lower() == ".mgf":
+                self.load_from_mgf(min_mz_num=min_mz_num,
+                                engine=engine, inten_thresh=inten_thresh)
+            else:
+                print('only mzxml and mgf files are supported')
+        except Exception as e:
+            print("error: ",self.filename,"  ",e)
+            
         # filter based on inten_threshold (calculate absolute intensity threshold based on relative inten_threshold),
         # then check min_mz_num,then remove precursor peaks, then check min_mz_num
         # for spec in self.spectrum_list:
@@ -680,7 +697,8 @@ class SpectrumCollection:
                 except:
                     print('please give the correct encoding')
         for line in lines:
-
+            if line.startswith('\ufeff'):
+                line = line[1:]
             mgf_file_line = line.rstrip()
             if len(mgf_file_line) < 4:
                 continue
@@ -755,11 +773,16 @@ class SpectrumCollection:
                     continue
             if mgf_file_line.split('=')[0] == 'ION':
                 ion = mgf_file_line.split('=')[1]
+                
                 if ion.lower() != "none":
-                    ion_info = ion.split('M')[1].split(']')[
-                        0]  # ion_info indicates addition
-                    flag = ion.split('M')[0].split(
-                        '[')[1]  # flag indicate how many M
+                    if '[' in ion.lower():
+                        ion_info = ion.split('M')[1].split(']')[
+                            0]  # ion_info indicates addition
+                        flag = ion.split('M')[0].split(
+                            '[')[1]  # flag indicate how many M
+                    else:
+                        ion_info = ion.split('M')[1]
+                        flag = ion.split('M')[0] # flag indicate how many M
                     if len(flag) < 1:
                         flag = '1'
                     # [M+H2O-2H]2- ion_pair is ('1','+H2O-2H')
@@ -1267,27 +1290,38 @@ class SpectrumCollection:
         for mslevel=1 spectra, mz=0
         '''
         self.ms1list.reset_index(drop=True, inplace=True)
-        self.ms1list = self.ms1list.sort_values(by=['mz', 'rt'])
-        self.spectrum_list = list(
-            map(self.spectrum_list.__getitem__, self.ms1list.index))
-        self.ms1list.reset_index(drop=True, inplace=True)
+        if len(self.ms1list) > 0:
+            self.ms1list = self.ms1list.sort_values(by=['mz', 'rt'])
+            self.spectrum_list = list(
+                map(self.spectrum_list.__getitem__, self.ms1list.index))
+            self.ms1list.reset_index(drop=True, inplace=True)
 
     def merge_neighbor_peaks(self, threshold=1.02):
+        def find_nth_largest(arr, N):
+            if N >= len(arr):
+                return None,None
+            sorted_indices = arr[:, 1].argsort()[::-1]
+
+            nth_largest_index = sorted_indices[N]
+            nth_largest_value = arr[nth_largest_index]
+            return nth_largest_value, nth_largest_index
+        
         for i_spec in range(len(self.spectrum_list)):
             arr = self.spectrum_list[i_spec].peaks
             # Sort the array by mass in ascending order
             arr = arr[arr[:, 0].argsort()]
             # Find the element with the highest inten
-            max_item = arr[arr[:, 1].argmax()]
-            done_list = np.array([])
+            # max_item = arr[arr[:, 1].argmax()]
+            done_count = 0
+            max_item,max_index =  find_nth_largest(arr,done_count)
             while max_item is not None:
-                remove_indices = []
-                max_index = np.where(np.all(arr == max_item, axis=1))[0][0]
+                to_remove = np.zeros(len(arr), dtype=bool)
+                # max_index = np.where(np.all(arr == max_item, axis=1))[0][0]
                 left_index = max_index - 1
 
                 while left_index >= 0:
                     if abs(arr[left_index][0] - max_item[0]) <= threshold:
-                        remove_indices.append(left_index)
+                        to_remove[left_index] = True
                         left_index -= 1
                     else:
                         left_index = -1
@@ -1296,25 +1330,56 @@ class SpectrumCollection:
 
                 while right_index < len(arr):
                     if abs(arr[right_index][0] - max_item[0]) <= threshold:
-                        remove_indices.append(right_index)
+                        to_remove[right_index] =True
                         right_index += 1
                     else:
                         right_index = 1000000
 
-                for i in sorted(remove_indices, reverse=True):
-                    arr = np.delete(arr, i, axis=0)
-                done_list = np.append(done_list, max_item[0])
-                mask = np.isin(arr[:, 0], done_list, invert=True)
-                # apply the mask to the array to get the filtered array
-                filtered_arr = arr[mask, :]
-                if len(filtered_arr) == 0:
+                # for i in sorted(remove_indices, reverse=True):
+                #     arr = np.delete(arr, i, axis=0)
+                arr = arr[~to_remove]
+                done_count+=1
+                max_item,max_index =  find_nth_largest(arr,done_count)
+                if max_index == None:
                     break
-                # get the index of the maximum item based on the 'inten' key
-                max_index = np.argmax(filtered_arr[:, 1])
-                # Find the next highest inten element that hasn't been processed yet
-                max_item = filtered_arr[max_index]
+                # done_list = np.append(done_list, max_item[0])
+                # mask = np.isin(arr[:, 0], done_list, invert=True)
+                # # apply the mask to the array to get the filtered array
+                # filtered_arr = arr[mask, :]
+                # if len(filtered_arr) == 0:
+                #     break
+                # # get the index of the maximum item based on the 'inten' key
+                # max_index = np.argmax(filtered_arr[:, 1])
+                # # Find the next highest inten element that hasn't been processed yet
+                # max_item = filtered_arr[max_index]
             self.spectrum_list[i_spec].peaks = arr
+            
+            
+    def merge_neighbor_peaks_(self, threshold=1.02):
+        for i_spec in range(len(self.spectrum_list)):
+            # Sort the array by mass in ascending order
+            peaks = self.spectrum_list[i_spec].peaks
+            peaks = peaks[np.argsort(peaks[:, 0])]
 
+            # Boolean array to mark peaks for removal
+            to_remove = np.zeros(len(peaks), dtype=bool)
+
+            # Iterate over the peaks once, marking neighbors for removal
+            i = 0
+            while i < len(peaks):
+                # Find the range of indices where peaks are within the threshold
+                close_by = np.abs(peaks[i+1:, 0] - peaks[i, 0]) <= threshold
+                if np.any(close_by):
+                    # Mark the neighboring peaks for removal, keeping the one with the highest intensity
+                    neighbor_indices = np.where(close_by)[0] + i + 1
+                    max_intensity_index = neighbor_indices[np.argmax(peaks[neighbor_indices, 1])]
+                    to_remove[neighbor_indices] = True
+                    to_remove[max_intensity_index] = False  # Keep the peak with the highest intensity
+                    i = max_intensity_index + 1  # Skip ahead to the next unmarked peak
+                else:
+                    i += 1
+            # Remove the marked peaks
+            self.spectrum_list[i_spec].peaks = peaks[~to_remove]
     def merge_spectra(self, ms2delta=0.01, ppm=20, rt=30, by_col_e=True):
         extension = os.path.splitext(self.filename)[1]
         if extension.lower() == '.mzxml':
@@ -1416,7 +1481,7 @@ class SpectrumCollection:
 
             new_scandict = {}
             # new_ms1list = pd.DataFrame(columns={'mz','rt'})
-            new_ms1list = []
+            new_ms1list = [pd.DataFrame()]
             new_ls = self.spectrum_list
             for spectrum in new_ls:
                 new_scandict[spectrum.scan] = spectrum
