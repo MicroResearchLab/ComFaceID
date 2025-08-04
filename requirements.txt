@@ -1,0 +1,18 @@
+# -i https://pypi.tuna.tsinghua.edu.cn/simple
+chemparse==0.1.2
+h5py==3.7.0
+matchms==0.18.0
+matplotlib==3.6.2
+numpy==1.23.5
+pandas==1.5.3
+pickydict==0.4.0
+pyteomics==4.5.6
+tqdm==4.64.1
+xmltodict==0.13.0
+
+--index-url https://download.pytorch.org/whl/cpu
+torch
+
+tensorflow-gpu==2.11.0
+ms2deepscore==0.3.1
+pyyaml
