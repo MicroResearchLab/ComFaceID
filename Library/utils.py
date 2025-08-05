@@ -1,7 +1,7 @@
 import binascii
 import struct
 import zlib
-from Library import ming_numerical_utilities as numerical_utilities
+from Library import numerical_utilities as numerical_utilities
 from collections import defaultdict
 import pandas as pd
 import numpy as np

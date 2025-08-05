@@ -1,5 +1,5 @@
 
-from Library import ming_psm_library
+from Library import psm_library
 import re
 
 def transform_peptide_to_msp_library_string(input_peptide):
@@ -10,7 +10,7 @@ def transform_peptide_to_msp_library_string(input_peptide):
 
 #Assuming Inspect format
 def transform_peptide_to_msp_mods(input_peptide):
-    all_atoms = ming_psm_library.get_peptide_modification_list_inspect_format(input_peptide)
+    all_atoms = psm_library.get_peptide_modification_list_inspect_format(input_peptide)
 
     mod_list = []
 

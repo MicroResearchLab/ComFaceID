@@ -8,10 +8,10 @@ import struct
 import os
 import time
 import zlib
-import Library.ming_spectrum_alignment as spectrum_alignment
-import Library.ming_psm_library as psm_library
-import Library.ming_numerical_utilities as numerical_utilities
-import Library.ming_sptxt_library as sptxt_library
+import Library.spectrum_alignment as spectrum_alignment
+import Library.psm_library as psm_library
+import Library.numerical_utilities as numerical_utilities
+import Library.sptxt_library as sptxt_library
 from collections import defaultdict
 
 

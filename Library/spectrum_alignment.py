@@ -1,7 +1,7 @@
 import math
 import bisect
 from collections import namedtuple
-from Library import ming_spectrum_library
+from Library import library
 
 Match = namedtuple('Match', ['peak1', 'peak2', 'score'])
 Peak = namedtuple('Peak',['mz','intensity'])
@@ -149,8 +149,8 @@ def score_alignment_matched_peaks(spec1,spec2,pm1,pm2,tolerance,max_charge_consi
 
 def score_alignment_annotated_ion_peaks(spec1,spec2,pm1,pm2,tolerance,annotation1,annotation2,max_charge_consideration=1):
     #filter unannotated peaks
-    filtered_peaks1 = ming_spectrum_library.attenuate_unannotated_peaks(spec1, 3, tolerance, annotation1)
-    filtered_peaks2 = ming_spectrum_library.attenuate_unannotated_peaks(spec2, 3, tolerance, annotation2)
+    filtered_peaks1 = library.attenuate_unannotated_peaks(spec1, 3, tolerance, annotation1)
+    filtered_peaks2 = library.attenuate_unannotated_peaks(spec2, 3, tolerance, annotation2)
 
     total_score, alignment = score_alignment(filtered_peaks1,filtered_peaks2,pm1,pm2,tolerance,max_charge_consideration)
 
@@ -159,7 +159,7 @@ def score_alignment_annotated_ion_peaks(spec1,spec2,pm1,pm2,tolerance,annotation
 #Filtering to annotated peaks only for the first spectrum
 def score_alignment_annotated_ion_peaks_one_sided(spec1,spec2,pm1,pm2,tolerance,annotation1,annotation2,max_charge_consideration=1):
     #filter unannotated peaks
-    filtered_peaks1 = ming_spectrum_library.attenuate_unannotated_peaks(spec1, 3, tolerance, annotation1)
+    filtered_peaks1 = library.attenuate_unannotated_peaks(spec1, 3, tolerance, annotation1)
     filtered_peaks2 = spec2
 
     total_score, alignment = score_alignment(filtered_peaks1,filtered_peaks2,pm1,pm2,tolerance,max_charge_consideration)

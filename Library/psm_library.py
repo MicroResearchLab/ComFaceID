@@ -6,7 +6,7 @@ PSM Utilities to read psms
 
 """
 
-import Library.ming_fileio_library as ming_fileio_library
+import Library.fileio_library as fileio_library
 import math
 import re
 import random
@@ -574,7 +574,7 @@ def calculated_number_annotated_peaks(peaks, max_charge, peptide, tolerance):
  # Returns a list of PSM
 ###
 def parse_MSGF_tsvfile(filename):
-    rows, table_data = ming_fileio_library.parse_table_with_headers(filename)
+    rows, table_data = fileio_library.parse_table_with_headers(filename)
 
     scan_header = "Scan#"
     peptide_header = "Peptide"
@@ -629,7 +629,7 @@ def parse_MSGF_tsvfile(filename):
     return psm_list
 
 def parse_MSGFPlus_tsvfile(filename):
-    rows, table_data = ming_fileio_library.parse_table_with_headers(filename)
+    rows, table_data = fileio_library.parse_table_with_headers(filename)
 
     scan_header = "ScanNum"
     peptide_header = "Peptide"
@@ -688,7 +688,7 @@ def parse_MSGFPlus_tsvfile(filename):
  # Takes as input a filename for a variant file output by this code
 ###
 def parse_variant_file(filename):
-    rows, table_data = ming_fileio_library.parse_table_with_headers(filename)
+    rows, table_data = fileio_library.parse_table_with_headers(filename)
 
     psm_list = []
     for i in range(rows):
@@ -716,7 +716,7 @@ def parse_variant_file(filename):
  # Takes as input a filename for a variant file output by this code
 ###
 def parse_psm_file(filename, load_extra_metadata=False):
-    rows, table_data = ming_fileio_library.parse_table_with_headers(filename)
+    rows, table_data = fileio_library.parse_table_with_headers(filename)
 
     known_headers = ["filename", "scan", "score", "decoy", "sequence", "charge", "ppm_error", "unmangled_name", "FDR", "collision_energy", "FragMethod"]
     extra_metadata_headers = set(table_data.keys()).difference(set(known_headers))
@@ -762,7 +762,7 @@ def parse_psm_file(filename, load_extra_metadata=False):
  # Takes as input a filename for a variant file output by this code
 ###
 def parse_msplit_file(filename, load_extra_metadata=False):
-    rows, table_data = ming_fileio_library.parse_table_with_headers(filename)
+    rows, table_data = fileio_library.parse_table_with_headers(filename)
 
     known_headers = ["filename", "scan", "score", "decoy", "sequence", "charge", "ppm_error", "unmangled_name", "FDR", "collision_energy", "FragMethod"]
     extra_metadata_headers = set(table_data.keys()).difference(set(known_headers))

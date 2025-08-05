@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 
 import os
-import Library.ming_spectrum_alignment as spectrum_alignment
-import Library.ming_numerical_utilities as numerical_utilities
-from Library import ming_psm_library
+import Library.spectrum_alignment as spectrum_alignment
+import Library.numerical_utilities as numerical_utilities
+from Library import psm_library
 import pandas as pd
 import re
 import time
@@ -1898,10 +1898,10 @@ class Spectrum:
 
         if peptide != None:
             charge_set = range(1, self.charge + 1)
-            theoretical_peaks = ming_psm_library.create_theoretical_peak_map(self.peptide,
+            theoretical_peaks = psm_library.create_theoretical_peak_map(self.peptide,
                                                                              ["b", "y", "b-H2O", "b-NH3", "y-H2O",
                                                                               "y-NH3", "a"], charge_set=charge_set)
-            annotated_peaks, unannotated_peaks = ming_psm_library.extract_annotated_peaks(theoretical_peaks, self.peaks,
+            annotated_peaks, unannotated_peaks = psm_library.extract_annotated_peaks(theoretical_peaks, self.peaks,
                                                                                           tolerance)
             new_peaks = annotated_peaks
             if attenuation_ratio > 0:
