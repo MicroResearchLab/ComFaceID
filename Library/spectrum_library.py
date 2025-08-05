@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 import os
-import Library.spectrum_alignment as spectrum_alignment
-import Library.numerical_utilities as numerical_utilities
+import library.spectrum_alignment as spectrum_alignment
+import library.numerical_utilities as numerical_utilities
 from Library import psm_library
 import pandas as pd
 import re

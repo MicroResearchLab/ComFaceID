@@ -1,6 +1,6 @@
 import shutil
 from model import Net
-from Library.spectrum_library import SpectrumCollection
+from library.spectrum_library import SpectrumCollection
 import pandas as pd
 import tensorflow as tf
 import numpy as np

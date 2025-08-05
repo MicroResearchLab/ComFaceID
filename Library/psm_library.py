@@ -6,7 +6,7 @@ PSM Utilities to read psms
 
 """
 
-import Library.fileio_library as fileio_library
+import library.fileio_library as fileio_library
 import math
 import re
 import random
