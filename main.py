@@ -282,3 +282,6 @@ df.to_csv('output/{}-similarity-matching.csv'.format(timestamp), index=False)
 
 df = pd.DataFrame(class_res)
 df.to_csv('output/{}-classification.csv'.format(timestamp), index=False)
+
+with open('output/{}-class-results.json'.format(timestamp), 'w') as f:
+    json.dump(class_res, f, indent=4)
