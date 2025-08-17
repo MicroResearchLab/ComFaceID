@@ -102,6 +102,8 @@ Install dependencies using:
 pip install -r requirements.txt
 ```
 
+The above dependencies have been verified in the `ubuntu 20.04` + `cuda 11.8` environment.
+
 ---
 
 ## License
