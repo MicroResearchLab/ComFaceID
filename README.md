@@ -35,6 +35,9 @@ Please download the required resources and place them in the directories specifi
 
 ### 1. Installation
 
+> Note: We have only fully tested this on Ubuntu 20.04 LTS, and it requires a Python version greater than 3.8. We cannot guarantee that it will function correctly on other operating systems or Python versions.
+> 
+
 ```bash
 git clone <https://github.com/MicroResearchLab/ComFaceID.git>
 cd ComFaceID
