@@ -30,6 +30,11 @@ Please download the required resources and place them in the directories specifi
 | `fpr_model` | Model for molecular fingerprint prediction. | [Download](https://zenodo.org/records/16682503) |
 | `fpr_database` | Database for molecular fingerprint based library retrieval. | [Download](https://zenodo.org/records/16679974) |
 
+You can also download all the resources by running the following command:
+
+```bash
+bash download_resources.sh
+```
 ---
 
 ## System requirements
