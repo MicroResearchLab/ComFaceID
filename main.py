@@ -54,10 +54,10 @@ num_of_bin = 60000
 embedding_dim = 500
 
 extra_bit = 1
-filterByMass = params.filter_mass  # 预处理中相对分子质量筛选阈值
-filterByFormula = params.filter_formula  # 预处理中是否按照分子式筛选
+filterByMass = params.filter_mass  # Threshold for relative molecular mass filtering during preprocessing
+filterByFormula = params.filter_formula  # Whether to filter by molecular formula during preprocessing
 
-outputNum = params.output_num  # 输出数量
+outputNum = params.output_num  # Number of outputs
 num_workers = 16  
 
 SourcefileNameFilter = ""

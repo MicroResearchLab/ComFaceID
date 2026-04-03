@@ -348,14 +348,14 @@ def chunks(arr, m):
 
 
 def normTanimotoDistance(vec1, vec2):
-    intersection = np.multiply(vec1, vec2)  # 利用预测值与标签相乘当作交集
+    intersection = np.multiply(vec1, vec2)  # Use the product of predictions and labels as the intersection
     union = np.bitwise_or(vec1, vec2)
     score = (np.sum(intersection) + 1e-5) / (np.sum(union) + 1e-5)
     return score
 
 def num2array(din, bit_width, padding=0):
     bin_obj = bin(int(din))[(2+padding):]
-    bin_str = bin_obj.rjust(bit_width, '0')  # 高位补0
+    bin_str = bin_obj.rjust(bit_width, '0')  # Left-pad with zeros
     o_arr = []
     for ii in range(len(bin_str)):
         o_arr.append(int(bin_str[len(bin_str)-ii-1]))
@@ -363,7 +363,7 @@ def num2array(din, bit_width, padding=0):
 
 def num2binstr(din, bit_width, padding=0):
     bin_obj = bin(int(din))[(2+padding):]
-    bin_str = bin_obj.rjust(bit_width, '0')  # 高位补0
+    bin_str = bin_obj.rjust(bit_width, '0')  # Left-pad with zeros
     o_arr = ""
     for ii in range(len(bin_str)):
         o_arr+=str(int(bin_str[len(bin_str)-ii-1]))

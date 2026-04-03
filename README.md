@@ -63,8 +63,20 @@ pip install -r requirements.txt
 
 Place your input files in the `input/files` directory.
 
-- **Supported Formats:** `.mgf` or `.mzxml`.
-- **Note for .mzxml:** A corresponding `.csv` peak table (columns: `mz`, `rt`) must also be present in the directory.
+Recommended input layout:
+
+```text
+input/
+├── files/
+│   ├── sample_1.mgf
+│   └── sample_2.mzxml
+└── peaktable/
+    └── sample_2.csv
+```
+
+Place `.mgf` files directly in `input/files/`. For `.mzxml` files, place the spectrum file in `input/files/` and the matching peak table CSV in `input/peaktable/`. The peak table should contain at least the `mz` and `rt` columns. During processing, the pipeline may create temporary MGF files in `input/tmp_mgf/`.
+
+- **Supported formats:** `.mgf` or `.mzxml`.
 
 ### 3. Embedding Generation (Standalone)
 
@@ -83,7 +95,7 @@ python Embedding.py  --inten_thresh 1 \
 
 ```
 
-**Output:** The generated embeddings will be saved in **Pickle (`.pkl`)** format. Typically requires less than 10 minutes.
+**Output:** The generated embeddings will be saved in **Pickle (`.pkl`)** format. The file stores a list of records, and each record includes the input file name, the generated embedding vector, and the precursor mass. Typically requires less than 10 minutes.
 
 ### 4. Main Analysis (Full Pipeline)
 

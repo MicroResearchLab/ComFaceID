@@ -26,10 +26,10 @@ def positional_encoding(position, d_model):
                             np.arange(d_model)[np.newaxis, :],
                             d_model)
 
-    # 将 sin 应用于数组中的偶数索引（indices）；2i
+    # Apply sine to the even indices of the array; 2i
     angle_rads[:, 0::2] = np.sin(angle_rads[:, 0::2])
 
-    # 将 cos 应用于数组中的奇数索引；2i+1
+    # Apply cosine to the odd indices; 2i+1
     angle_rads[:, 1::2] = np.cos(angle_rads[:, 1::2])
 
     pos_encoding = angle_rads[np.newaxis, ...]
@@ -42,16 +42,16 @@ def scaled_dot_product_attention(q, k, v, mask):
     # (..., seq_len_q, seq_len_k)
     matmul_qk = tf.matmul(q, k, transpose_b=True)
 
-    # 缩放 matmul_qk
+    # Scale matmul_qk
     dk = tf.cast(tf.shape(k)[-1], tf.float32)
     scaled_attention_logits = matmul_qk / tf.math.sqrt(dk)
 
-    # 将 mask 加入到缩放的张量上。
+    # Add the mask to the scaled tensor.
     if mask is not None:
         scaled_attention_logits += (mask * -1e9)
 
-    # softmax 在最后一个轴（seq_len_k）上归一化，因此分数
-    # 相加等于1。
+    # Softmax normalizes along the last axis (seq_len_k), so the scores
+    # sum to 1.
     attention_weights = tf.nn.softmax(
         scaled_attention_logits, axis=-1)  # (..., seq_len_q, seq_len_k)
 
@@ -77,8 +77,8 @@ class MHA(tf.keras.layers.Layer):
         self.dense = tf.keras.layers.Dense(d_model)
 
     def split_heads(self, x, batch_size):
-        """分拆最后一个维度到 (num_heads, depth).
-        转置结果使得形状为 (batch_size, num_heads, seq_len, depth)
+        """Split the last dimension into (num_heads, depth).
+        Transpose the result to shape (batch_size, num_heads, seq_len, depth)
         """
         x = tf.reshape(x, (batch_size, -1, self.num_heads, self.depth))
         return tf.transpose(x, perm=[0, 2, 1, 3])

@@ -573,7 +573,7 @@ class Database:
     # def remove_odd_spec(self):
     #     new_ls = []
     #     for spec_c in self.SpectrumCollection_list:
-    #         # 如果feature最小值小于0.01直接删除
+    #         # Remove the spectrum directly if the minimum feature value is below 0.01
     #         if np.min(np.abs(spec_c.spectrum_list[0].all_feature)) < 0.01:
     #             continue
     #         else:
@@ -916,7 +916,7 @@ class SpectrumCollection:
             try:
                 retention_time_string = scan['@retentionTime']
                 # print(retention_time_string)
-                # 以秒为单位
+                # Measured in seconds
                 retention_time = float(retention_time_string[2:-1])
             except KeyboardInterrupt:
                 raise
@@ -1112,7 +1112,7 @@ class SpectrumCollection:
             peaks_precision = float(scan['peaks'].get('@precision', '32'))
             peaks_compression = scan['peaks'].get('@compressionType', 'none')
             peak_string = scan['peaks'].get('#text', '')
-            # TODO: 不要使用这个值进行filter，保留每一个scan，mz_span的部分
+            # TODO: Do not use this value for filtering; retain the mz_span portion of every scan
             # mz = float(scan['@basePeakMz'])
             if peak_string != '':
                 peaks = decode_spectrum(
@@ -1493,7 +1493,7 @@ class SpectrumCollection:
             self.ms1list = pd.concat(new_ms1list, ignore_index=True)
             print('')
         else:
-            # 首先把spectrum list中的谱图按照collision energy分类
+            # First group the spectra in spectrum_list by collision energy
             # self.spec_0 = []
             # self.spec_10 = []
             # self.spec_20 = []
@@ -1528,7 +1528,7 @@ class SpectrumCollection:
 
             # mul_ls = [0, 10, 20, 40, 60, 80]
             for type, spec_l in enumerate(spec_l_col):
-                # 将每一个collision energy的集合按照mz和retention time从大到小的顺序排列
+                # Sort each collision-energy group in descending order by m/z and retention time
                 spec_l.sort(key=lambda a: a.retention_time)
                 spec_l.sort(key=lambda a: a.mz)
                 num_spectra = len(spec_l)
@@ -1971,8 +1971,8 @@ if __name__ == '__main__':
     # query_collection = SpectrumCollection(mzXML_file)
     # pk = query_collection.load_ms1_mzxml_file(rt_span=rt_span, mz_span=mz_span, if_norm=True)
     # pks = [pk1, pk2, pk3, pk4, pk5]
-    # 样本来源（文件名称） mz 丰度
-    # TODO: 存下矩阵/图片
+    # Sample source (file name), m/z abundance
+    # TODO: Persist the matrix/image
     # m = plot_merge(pks, plot_engine='matplotlib')
     # database_pth = '../Database_merged_'
     # db = Database(database_pth, 'tb')
@@ -2009,7 +2009,7 @@ if __name__ == '__main__':
     #     r_ls.append([spec_c.MID, spec.ion, np.min(np.abs(spec.neutral_loss[:, 0]))])
     # r_ls.sort(key=lambda a:a[2], reverse=True)
     # from Library.utils import export_ls2txt
-    # export_ls2txt(r_ls, 'loss_peak的绝对值最小值.txt')
+    # export_ls2txt(r_ls, 'minimum absolute value of loss_peak.txt')
 
     # db = Database('../Database_merged_', 'db')
     # db.load_files(inten_thresh=2)
@@ -2045,5 +2045,5 @@ if __name__ == '__main__':
     db = Database('/Users/Peter1/Desktop/testDB', 'testDB')
     db.load_files(min_mz_num=0, remove_pre=False, engine='utf-8')
     db.decompose_with_ions_in_mgf('Database_ions')
-# TODO(seems done already)：更改计算merge_spectrum的方式，先全部合并之后，然后merge
-# TODO: 先去掉precursor，norm，calculate——neutral——loss， 400以上的frag_feature去掉， difference_between_fragment, 差值小于18去掉
+# TODO(seems done already): Revise the merge_spectrum computation strategy: merge all spectra first, then perform merging.
+# TODO: Remove the precursor, normalization, and neutral-loss calculation first; discard fragment features above 400, and remove fragment-to-fragment differences below 18.
